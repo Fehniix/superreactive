@@ -1,5 +1,8 @@
 import SuperReactive from "./SuperReactive";
 
+import _debug from 'debug';
+const debug = _debug('superreactive');
+
 /**
  * Allows the decorated property to react to remote changes and broadcast changes to all remote location references.
  * @param identifier The unique identifier associated to the property. This value needs to be matched by all remote locations to be correctly updated. If not provided, defaults to the property name.
@@ -15,7 +18,7 @@ export function reactive(identifier?: string) {
 
 				const id: string = identifier ?? propertyKey.toString();
 
-				console.log(`[SP] Retrieving value for ${id}`);
+				debug(`Property with identifier ${id} read, with value: ${SuperReactive.getValueFor(id)}`);
 
 				return SuperReactive.getValueFor(id);
 			},
@@ -27,7 +30,7 @@ export function reactive(identifier?: string) {
 
 				const id: string = identifier ?? propertyKey.toString();
 				
-				console.log(`[SP] Setting new value for ${id} to ${newValue}`);
+				debug(`Setting new value for property with identifier ${id}, new value: ${SuperReactive.getValueFor(id)}`);
 				
 				SuperReactive.setValueFor(id, newValue);
 			}

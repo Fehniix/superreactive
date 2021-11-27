@@ -18,11 +18,13 @@
   "author": "Johnny Bueti",
   "license": "MIT",
   "devDependencies": {
+    "@types/debug": "^4.1.7",
     "@types/ioredis": "^4.28.1",
     "@types/node": "^16.11.10"
   },
   "dependencies": {
     "bullmq": "^1.54.5",
+    "debug": "^4.3.3",
     "ioredis": "^4.28.1"
   }
 }
