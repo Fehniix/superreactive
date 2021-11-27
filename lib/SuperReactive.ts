@@ -47,11 +47,17 @@ class SuperReactive {
 		this.remoteQueueName 	= remoteEndpointName;
 
 		this.bmqQueue = new Queue<ReactiveJob>(remoteEndpointName, {
-			connection: new IORedis(ioRedisURL)
+			connection: new IORedis(ioRedisURL, {
+				maxRetriesPerRequest: null,
+				enableReadyCheck: false
+			})
 		});
 
 		this.bmqWorker = new Worker<ReactiveJob, void>(endpointName, this.process.bind(this), {
-			connection: new IORedis(ioRedisURL)
+			connection: new IORedis(ioRedisURL, {
+				maxRetriesPerRequest: null,
+				enableReadyCheck: false
+			})
 		});
 	}
 
