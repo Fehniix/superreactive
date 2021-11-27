@@ -26,7 +26,7 @@ class MyClass {
 }
 ```
 
-And that's all there to it, for right now. The package was written for my own purposes, as a way to immediately synchronize variables across multiple containers/processes.
+And that's all there to it, for right now. The `myProperty` property will get written to whenever the "back-end" modifies its "myPropertyIdentifier"-identified instance, and viceversa. The package was written for my own purposes, as a way to immediately synchronize variables across multiple containers/processes.
 
 ## TODO
 
