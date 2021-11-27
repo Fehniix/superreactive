@@ -1,7 +1,7 @@
 {
   "name": "superreactive",
   "version": "0.0.1",
-  "description": "A module that allows instances to be marked \"reactive\" and get seamlessly synchronized throughout two distinct processes over the network using Redis and BullMQ.",
+  "description": "A package that allows instances to be marked \"reactive\" and get seamlessly synchronized throughout two distinct processes over the network using Redis and BullMQ.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
