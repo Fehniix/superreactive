@@ -2,6 +2,10 @@
 
 Documentation will be populated at a later date.
 
+## Disclaimer
+
+This package is purely experimental and is to be considered unstable. **DO NOT USE IN PRODUCTION**. All PRs and contributions are very well appreciated and accepted - thank you!
+
 ## Brief installation and usage notes
 
 Install the package via:
