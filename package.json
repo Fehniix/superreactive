@@ -4,6 +4,7 @@
   "description": "A package that allows instances to be marked \"reactive\" and get seamlessly synchronized throughout two distinct processes over the network using Redis and BullMQ.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": "fehniix/superreactive",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc --build --clean && tsc"
