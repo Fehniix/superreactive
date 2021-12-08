@@ -7,7 +7,7 @@ const debug = _debug('superreactive:main');
 /**
  * Allows for inter-container variable states seamless synchronization.
  */
-class SuperReactive {
+export class SuperReactive {
 	/**
 	 * Contains Object and primitives references mapped by namespace/name
 	 */
@@ -22,6 +22,11 @@ class SuperReactive {
 	 * The remote BullMQ name.
 	 */
 	private remoteQueueName!: string;
+
+	/**
+	 * The reusable IORedis connection.
+	 */
+	private redisInstance!: IORedis.Redis;
 
 	private bmqQueue!: Queue;
 	private bmqWorker!: Worker;
@@ -42,25 +47,27 @@ class SuperReactive {
 	 * @abstract If the current process running an instance of `SuperReactive` is named "endpoint1", `remoteEndpointName` on the remote endpoint **must** be "endpoint1".
 	 * @param endpointName The **unique** identifier for the current endpoint.
 	 * @param remoteEndpointName The **unique** identifier for the remote endpoint.
-	 * @param ioRedisURL `SuperReactive` takes advantage of `IORedis` to manage synchronization. A URL to the server running a Redis instance has to be provided for `SuperReactive` to work.
+	 * @param redis `SuperReactive` takes advantage of `IORedis` to manage synchronization. Can be either an instance of `ioredis.Redis` or the connection URL.
 	 */
-	public start(endpointName: string, remoteEndpointName: string, ioRedisURL: string): void {
+	public start(endpointName: string, remoteEndpointName: string, redis: IORedis.Redis | string): void {
+		if (typeof redis === 'string')
+			this.redisInstance = new IORedis(redis, {
+				maxRetriesPerRequest: null,
+				enableReadyCheck: false
+			});
+		else
+			this.redisInstance = redis;
+
 		this.active 			= true;
 		this.queueName 			= endpointName;
 		this.remoteQueueName 	= remoteEndpointName;
 
 		this.bmqQueue = new Queue<ReactiveJob>(remoteEndpointName, {
-			connection: new IORedis(ioRedisURL, {
-				maxRetriesPerRequest: null,
-				enableReadyCheck: false
-			})
+			connection: this.redisInstance
 		});
 
 		this.bmqWorker = new Worker<ReactiveJob, void>(endpointName, this.process.bind(this), {
-			connection: new IORedis(ioRedisURL, {
-				maxRetriesPerRequest: null,
-				enableReadyCheck: false
-			})
+			connection: this.redisInstance.duplicate()
 		});
 
 		debug(`Started local worker: ${endpointName}`);
