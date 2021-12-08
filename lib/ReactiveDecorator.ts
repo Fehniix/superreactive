@@ -26,7 +26,7 @@ export function reactive(identifier?: string, superReactive?: SuperReactive) {
 
 				const id: string = identifier ?? propertyKey.toString();
 
-				debug(`[READ] ${id}, value: ${instance.getValueFor(id)}`);
+				debug(`[READ] ${id}, value: %o`, instance.getValueFor(id));
 
 				return instance.getValueFor(id);
 			},
@@ -45,7 +45,7 @@ export function reactive(identifier?: string, superReactive?: SuperReactive) {
 
 				const id: string = identifier ?? propertyKey.toString();
 				
-				debug(`[WRITE] ${id}, new value: ${newValue}`);
+				debug(`[WRITE] ${id}, new value: %o`, newValue);
 				
 				instance.setValueFor(id, newValue);
 			}
