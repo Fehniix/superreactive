@@ -1,6 +1,9 @@
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 
+import _debug from 'debug';
+const debug = _debug('superreactive:main');
+
 /**
  * Allows for inter-container variable states seamless synchronization.
  */
@@ -59,6 +62,9 @@ class SuperReactive {
 				enableReadyCheck: false
 			})
 		});
+
+		debug(`Started local worker: ${endpointName}`);
+		debug(`Started remote queue: ${remoteEndpointName}`);
 	}
 
 	/**

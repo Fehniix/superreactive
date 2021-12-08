@@ -1,7 +1,7 @@
 import SuperReactive from "./SuperReactive";
 
 import _debug from 'debug';
-const debug = _debug('superreactive');
+const debug = _debug('superreactive:access');
 
 /**
  * Allows the decorated property to react to remote changes and broadcast changes to all remote location references.
@@ -18,7 +18,7 @@ export function reactive(identifier?: string) {
 
 				const id: string = identifier ?? propertyKey.toString();
 
-				debug(`Property with identifier ${id} read, with value: ${SuperReactive.getValueFor(id)}`);
+				debug(`[READ] ${id}, value: ${SuperReactive.getValueFor(id)}`);
 
 				return SuperReactive.getValueFor(id);
 			},
@@ -30,7 +30,7 @@ export function reactive(identifier?: string) {
 
 				const id: string = identifier ?? propertyKey.toString();
 				
-				debug(`Setting new value for property with identifier ${id}, new value: ${SuperReactive.getValueFor(id)}`);
+				debug(`[WRITE] ${id}, new value: ${newValue}`);
 				
 				SuperReactive.setValueFor(id, newValue);
 			}
