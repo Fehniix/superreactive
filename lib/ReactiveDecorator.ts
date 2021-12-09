@@ -4,7 +4,7 @@ import _debug from 'debug';
 const debug = _debug('superreactive:access');
 
 /**
- * Allows the decorated property of primitive type to react to remote changes and broadcast changes to all remote location references.
+ * Allows the decorated property **of primitive type** to react to remote changes and broadcast changes to all remote location references.
  * @param identifier The unique identifier associated to the property. This value needs to be matched by all remote locations to be correctly updated. If not provided, defaults to the property name.
  * @param superReactive The `SuperReactive` instance to use against value updates and access. Useful when the `SuperReactive` instance is user-managed.
  */
