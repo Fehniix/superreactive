@@ -101,6 +101,20 @@ export class SuperReactive {
 	}
 
 	/**
+	 * Returns the name of the internal queue.
+	 */
+	public get localEndpointName(): string {
+		return this.queueName;
+	}
+
+	/**
+	 * Returns the name of the internal worker name.
+	 */
+	public get remoteEndpointName(): string {
+		return this.remoteQueueName;
+	}
+
+	/**
 	 * Determines whether the `SuperReactive` service is currently up and running or not.
 	 */
 	public isEnabled(): boolean {
