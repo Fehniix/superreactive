@@ -12,6 +12,9 @@ export function reactive(identifier?: string, superReactive?: SuperReactive) {
 	return (target: any, propertyKey: PropertyKey) => {
 		let currentValue = target[propertyKey];
 
+		// This is the property descriptor of the object that is being decorated.
+		// It is useful for defining a good variety of different properties, such as iterability.
+		// This concept is hereby leveraged to decorate access to the object, delegating content management to SuperReactive.
 		const descriptor = {
 			get: () => {
 				let instance: SuperReactive;

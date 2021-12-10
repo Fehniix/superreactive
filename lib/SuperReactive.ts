@@ -2,6 +2,7 @@ import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 
 import _debug from 'debug';
+import Redis from './Redis';
 const debug = _debug('superreactive:main');
 
 /**
@@ -50,13 +51,7 @@ export class SuperReactive {
 	 * @param redis `SuperReactive` takes advantage of `IORedis` to manage synchronization. Can be either an instance of `ioredis.Redis` or the connection URL.
 	 */
 	public start(endpointName: string, remoteEndpointName: string, redis: IORedis.Redis | string): void {
-		if (typeof redis === 'string')
-			this.redisInstance = new IORedis(redis, {
-				maxRetriesPerRequest: null,
-				enableReadyCheck: false
-			});
-		else
-			this.redisInstance = redis;
+		this.redisInstance 		= Redis.createConnection(redis);
 
 		this.active 			= true;
 		this.queueName 			= endpointName;
