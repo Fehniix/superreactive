@@ -58,7 +58,7 @@ describe('ReactiveDecorator', function() {
 			it('the change should be correctly implemented over on EP2 as well', async function() {
 				ep1._string += 'b';
 
-				await sleep(400);
+				await sleep(600);
 
 				expect(ep2._string).to.equal('ab');
 			});
