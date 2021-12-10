@@ -1,9 +1,10 @@
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
+import Redis from './Redis';
 
 import _debug from 'debug';
-import Redis from './Redis';
 const debug = _debug('superreactive:main');
+const debugAccess = _debug('superreactive:access');
 
 /**
  * Allows for inter-container variable states seamless synchronization.
@@ -73,6 +74,7 @@ export class SuperReactive {
 	 * Processes the incoming jobs, storing the incoming value to its corresponding reference.
 	 */
 	private async process(job: Job<ReactiveJob>): Promise<void> {
+		debugAccess(`[${this.localEndpointName}] [REMOTE] ${job.data.identifier}, new value: %o`, job.data.value);
 		this.reactiveReferences.set(job.data.identifier, job.data.value);
 	}
 
