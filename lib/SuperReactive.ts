@@ -50,23 +50,23 @@ export class SuperReactive {
 	 * @param remoteEndpointName The **unique** identifier for the remote endpoint.
 	 * @param redis `SuperReactive` takes advantage of `IORedis` to manage synchronization. Can be either an instance of `ioredis.Redis` or the connection URL.
 	 */
-	public start(endpointName: string, remoteEndpointName: string, redis: IORedis.Redis | string): void {
+	public start(redis: IORedis.Redis | string, config: SuperReactiveConfiguration): void {
 		this.redisInstance 		= Redis.createConnection(redis);
 
 		this.active 			= true;
-		this.queueName 			= endpointName;
-		this.remoteQueueName 	= remoteEndpointName;
+		this.queueName 			= config.localEndpointName;
+		this.remoteQueueName 	= config.remoteEndpointName;
 
-		this.bmqQueue = new Queue<ReactiveJob>(remoteEndpointName, {
+		this.bmqQueue = new Queue<ReactiveJob>(config.remoteEndpointName, {
 			connection: this.redisInstance
 		});
 
-		this.bmqWorker = new Worker<ReactiveJob, void>(endpointName, this.process.bind(this), {
+		this.bmqWorker = new Worker<ReactiveJob, void>(config.localEndpointName, this.process.bind(this), {
 			connection: this.redisInstance.duplicate()
 		});
 
-		debug(`Started local worker: ${endpointName}`);
-		debug(`Started remote queue: ${remoteEndpointName}`);
+		debug(`Started local worker: ${config.localEndpointName}`);
+		debug(`Started remote queue: ${config.remoteEndpointName}`);
 	}
 
 	/**
@@ -130,6 +130,21 @@ interface ReactiveJob {
 	 * The value associated with the identifier
 	 */
 	value: any
+}
+
+/**
+ * Describes an object that configures SuperReactive at startup.
+ */
+export interface SuperReactiveConfiguration {
+	/**
+	 * The **unique** identifier for the current endpoint.
+	*/
+	localEndpointName: string,
+
+	/**
+	 * The **unique** identifier for the remote endpoint.
+	 */
+	remoteEndpointName: string
 }
 
 export default new SuperReactive();
