@@ -9,7 +9,8 @@
     "clean": "tsc --build --clean",
     "build": "npm run clean && tsc --build",
     "pub-prep": "tsc --build --clean && tsc",
-    "test": "export TEST=true&& npm run build && mocha --full-trace --require ./dist/test/setup.js ./dist/test/*.test.js ./dist/test/**/*.test.js && export DEBUG=bot:*&& export TEST=false"
+    "test": "export TEST=true&& npm run build && mocha --full-trace --require ./dist/test/setup.js ./dist/test/*.test.js ./dist/test/**/*.test.js && export TEST=false",
+    "test-dev": "export DEBUG=superreactive:*&& npm test && export DEBUG="
   },
   "keywords": [
     "redis",
