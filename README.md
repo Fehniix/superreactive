@@ -81,6 +81,12 @@ class MyFrontEnd {
 }
 ```
 
+## Events
+
+- `remoteUpdate`: emitted when the remote endpoint updated a value.
+- `localValueRead`: emitted when a local `@reactive` property was read.
+- `localValueWritten`: emitted when a local `@reactive` property was written to (triggering an update on the remote endpoint).
+
 ## License
 
 MIT. Do as you please with this package. Contributions and pull requests are very well accepted, would be my pleasure to review and integrate. Thank you!
