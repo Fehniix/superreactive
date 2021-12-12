@@ -8,20 +8,6 @@ import _debug from 'debug';
 const debug = _debug('superreactive:main');
 const debugAccess = _debug('superreactive:access');
 
-interface SuperReactiveEvents {
-	'remoteUpdate': (updatedObject: {
-		identifier: string, 
-		newValue: any
-	}) => void
-
-	'localValueRead': (identifier: string) => void
-
-	'localValueWritten': (updatedObject: {
-		identifier: string,
-		newValue: any
-	}) => void
-}
-
 /**
  * Allows for inter-container variable states seamless synchronization.
  */
@@ -147,6 +133,23 @@ export class SuperReactive extends TypedEmitter<SuperReactiveEvents> {
 	public isEnabled(): boolean {
 		return this.active;
 	}
+}
+
+/**
+ * Describes the set of events that SuperReactive emits.
+ */
+interface SuperReactiveEvents {
+	'remoteUpdate': (updatedObject: {
+		identifier: string,
+		newValue: any
+	}) => void
+
+	'localValueRead': (identifier: string) => void
+
+	'localValueWritten': (updatedObject: {
+		identifier: string,
+		newValue: any
+	}) => void
 }
 
 /**
