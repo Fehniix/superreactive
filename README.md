@@ -1,8 +1,7 @@
 # superreactive
 
-Documentation will be fully redacted at a later date.
-
 This package is to be considered unstable, as it still needs extensive testing - please use with caution!
+An updated version of this documentation *might* be available on the [GitHub Repo](https://github.com/Fehniix/superreactive).
 If you were to encounter any issue or come up with a suggestion, feel free to open a new issue [here](https://github.com/Fehniix/superreactive/issues).
 All PRs and contributions are very well accepted and appreciated - thank you!
 
