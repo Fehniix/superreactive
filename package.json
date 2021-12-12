@@ -33,6 +33,7 @@
   "dependencies": {
     "bullmq": "~1.54.5",
     "debug": "~4.3.3",
-    "ioredis": "~4.28.1"
+    "ioredis": "~4.28.1",
+    "tiny-typed-emitter": "~2.1.0"
   }
 }

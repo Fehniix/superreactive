@@ -1,15 +1,31 @@
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import Redis from './Redis';
+import EventEmitter from 'events';
+import { TypedEmitter } from 'tiny-typed-emitter';
 
 import _debug from 'debug';
 const debug = _debug('superreactive:main');
 const debugAccess = _debug('superreactive:access');
 
+interface SuperReactiveEvents {
+	'remoteUpdate': (updatedObject: {
+		identifier: string, 
+		newValue: any
+	}) => void
+
+	'localValueRead': (identifier: string) => void
+
+	'localValueWritten': (updatedObject: {
+		identifier: string,
+		newValue: any
+	}) => void
+}
+
 /**
  * Allows for inter-container variable states seamless synchronization.
  */
-export class SuperReactive {
+export class SuperReactive extends TypedEmitter<SuperReactiveEvents> {
 	/**
 	 * Contains Object and primitives references mapped by namespace/name
 	 */
@@ -39,6 +55,8 @@ export class SuperReactive {
 	private active: boolean = false;
 
 	public constructor() {
+		super();
+
 		this.reactiveReferences = new Map<string, any>();
 	}
 
@@ -74,14 +92,21 @@ export class SuperReactive {
 	 * Processes the incoming jobs, storing the incoming value to its corresponding reference.
 	 */
 	private async process(job: Job<ReactiveJob>): Promise<void> {
-		debugAccess(`[${this.localEndpointName}] [REMOTE] ${job.data.identifier}, new value: %o`, job.data.value);
 		this.reactiveReferences.set(job.data.identifier, job.data.value);
+		debugAccess(`[${this.localEndpointName}] [REMOTE] ${job.data.identifier}, new value: %o`, job.data.value);
+		
+		this.emit('remoteUpdate', {
+			identifier: job.data.identifier,
+			newValue: job.data.value
+		});
 	}
 
 	/**
 	 * Returns the value associated with the given identifier.
 	 */
 	public getValueFor(identifier: string): any | undefined {
+		this.emit('localValueRead', identifier);
+
 		return this.reactiveReferences.get(identifier);
 	}
 
@@ -89,6 +114,11 @@ export class SuperReactive {
 	 * Given the reference identifier, sets its value and enqueues a Job to signal change to the remote endpoint.
 	 */
 	public setValueFor(identifier: string, value: any): void {
+		this.emit('localValueWritten', {
+			identifier: identifier,
+			newValue: value
+		});
+
 		this.reactiveReferences.set(identifier, value);
 
 		this.bmqQueue.add(identifier, {
@@ -141,7 +171,7 @@ export interface SuperReactiveConfiguration {
 	/**
 	 * The **unique** identifier for the current endpoint.
 	*/
-	localEndpointName: string,
+	localEndpointName: string
 
 	/**
 	 * The **unique** identifier for the remote endpoint.
