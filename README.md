@@ -37,7 +37,7 @@ And that's all there to it, for right now. The `myProperty` property will get wr
 
 ## Configuration
 
-As of currently, `~0.3.0`, SuperReactive must be configured using the following configuration object:
+As of currently, `~0.4.0`, SuperReactive must be configured using the following configuration object:
 
 ```typescript
 interface SuperReactiveConfiguration {
