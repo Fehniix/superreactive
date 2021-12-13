@@ -1,7 +1,6 @@
 import { Queue, Worker, Job } from 'bullmq';
 import IORedis from 'ioredis';
 import Redis from './Redis';
-import EventEmitter from 'events';
 import { TypedEmitter } from 'tiny-typed-emitter';
 
 import _debug from 'debug';
