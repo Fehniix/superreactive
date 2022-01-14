@@ -1,4 +1,8 @@
-# superreactive
+# SuperReactive
+
+![Code Size](https://img.shields.io/github/languages/code-size/fehniix/superreactive)
+![npm Total Downloads](https://img.shields.io/npm/dt/superreactive)
+![GitHub Open Issues](https://img.shields.io/github/issues-raw/fehniix/superreactive)
 
 This package is to be considered unstable, as it still needs extensive testing - please use with caution!
 An updated version of this documentation *might* be available on the [GitHub Repo](https://github.com/Fehniix/superreactive).
